@@ -8,5 +8,8 @@ var articleController = require('../controllers/article')
 // router.use(resApplicationJson)
 /* GET users listing. */
 router.get('/articleList', articleController.articleList);
+router.get('/getArticle', articleController.getArticle);
+router.post('/addArticle', articleController.addArticle);
+router.post('/updateArticle', articleController.updateArticle);
 
 module.exports = router;

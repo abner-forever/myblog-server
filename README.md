@@ -6,9 +6,12 @@
 
 #### 接口列表
 1.http://localhost:3000/api/article/articleList   文章列表
-1.http://localhost:3000/api/article/addArticle   添加文章
-1.http://localhost:3000/api/article/upDateArticle   更新文章
-1.http://localhost:3000/api/article/removeArticle   删除文章
+
+2.http://localhost:3000/api/article/addArticle   添加文章
+
+3.http://localhost:3000/api/article/upDateArticle   更新文章
+
+4.http://localhost:3000/api/article/removeArticle   删除文章
 
 ```
 "data": [

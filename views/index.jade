@@ -2,4 +2,11 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  div 
+    p Welcome to #{title}
+  p
+    span 文章列表：
+    a(href='http://localhost:3000/api/article/articleList?pageNo=1&pageSize=10')   http://localhost:3000/api/article/articleList?pageNo=1&pageSize=10
+  p
+    span 文章详情：
+    a(href='http://localhost:3000/api/article/getArticle?id=100022')   http://localhost:3000/api/article/getArticle?id=100022

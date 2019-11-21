@@ -48,6 +48,7 @@ const getArticle = async (req, res, next) => {
     let articleId = req.query.id || '*'
     var sql = `SELECT * FROM users right join article on users.userId = article.userId where article.articleId=${articleId}`;
     mysql.query(sql, (err, result) => {
+        console.log(res);
         if (err) {
             console.log('[SELECT ERROR]:', err.message);
         }

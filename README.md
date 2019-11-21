@@ -5,6 +5,9 @@
 >2. 连表查询
 
 #### 接口列表
+
+文章
+
 1.http://localhost:3000/api/article/articleList?pageNo=1&pageSize=10   文章列表
 
 1.http://localhost:3000/api/article/getArticle?id=100022   根据获取某一篇文章
@@ -16,6 +19,10 @@
 3.http://localhost:3000/api/article/upDateArticle   更新文章
 
 4.http://localhost:3000/api/article/removeArticle   删除文章
+
+
+用户信息
+http://localhost:3000/api/users/userinfo?id=
 
 ```
 "data": [

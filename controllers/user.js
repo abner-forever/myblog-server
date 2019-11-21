@@ -1,9 +1,12 @@
 const mysql = require('../utils/mysqlConfig')
 
 const userInfo = async (req, res, next) => {
-    var sql = `SELECT * FROM users right join article on users.userId = article.userId`;
+    let userId = req.query.id || '*'
+    var sql = `SELECT * FROM users where users.userId = ${userId}`;
     console.log(sql)
     mysql.query(sql, (err, result) => {
+        console.log(res);
+        
         if (err) {
             console.log('[SELECT ERROR]:', err.message);
         }

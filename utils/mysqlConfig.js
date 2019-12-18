@@ -1,8 +1,8 @@
 const mysql = require('mysql');
 
 let connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
+    host: 'foreverheart.top',
+    user: 'youpin',
     password: '123456',
     port: '3306',
     database: 'youpin',
@@ -14,5 +14,4 @@ connection.connect(function (err) {
         return;
     }
 });
-
 module.exports = connection;

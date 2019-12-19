@@ -63,7 +63,7 @@ const addArticle = async (req, res, next) => {
 }
 //获得某一篇文章
 const getArticle = async (req, res, next) => {
-    let articleId = req.query.id || '*'
+    let articleId = req.query.id || ''
     var sql = `SELECT * FROM users right join article on users.userId = article.userId where article.articleId=${articleId}`;
     mysql.query(sql, (err, result) => {
         console.log(result);
@@ -86,13 +86,12 @@ const getArticle = async (req, res, next) => {
 }
 
 const updateArticle = async (req, res, next) => {
+    let content = req.body.contents
     let articleId = req.body.articleId
-    let title = req.body.title
-    let contents = req.body.contents
+    let title = content.blocks[0].text
+    let contents = JSON.stringify(content)
     let updateTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     var sql = `UPDATE article SET title='${title}', contents='${contents}', updateTime='${updateTime}' WHERE articleId = ${articleId}`;
-    console.log(sql);
-    
     mysql.query(sql, (err, result) => {
         if (err) {
             res.json({

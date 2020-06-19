@@ -1,39 +1,17 @@
 const mysql = require('../utils/mysqlConfig')
 const moment = require('moment')
-const path = require('path');
-const fs = require('fs')
-
-function log(res){
-	let options = {
-	 flags: 'a', // 
-	 encoding: 'utf8', // utf8编码
-	}
-	let logpath = path.join(__dirname,'../log/request.log')
-	let stderr = fs.createWriteStream(logpath, options);
-	let logger = new console.Console(stderr);
-	let timestamp = new Date()
-    logger.log(timestamp+res);
-}
-function handleError(err) {
-    if (err) {
-        // 如果是连接异常，自动重新连接
-         log('[SELECT ERROR]:'+JSON.stringify(err));
-        if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR' || err.code === 'ETIMEDOUT') {
-            mysql.connect();
-        } else {
-            console.error(err.stack || err);
-        }
-    }
-}
+const logUtil = require('../utils/logUtil')
 //获取文章列表
 const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
     let pageSize = req.query.pageSize || 20
     pageNo = (pageNo - 1) * pageSize
     var sql = `SELECT * FROM users right join article on users.userId = article.userId ORDER BY articleId LIMIT ${pageNo}, ${pageSize}`;
-    await mysql.query(sql, (err, result) => {
+    var hsql = `SELECT title,articleId,userName,createTime,updateTime,description FROM users right join article on users.userId = article.userId ORDER BY articleId >= (SELECT articleId FROM users right join article on users.userId = article.userId ORDER BY articleId LIMIT 0,1) LIMIT 10`
+    await mysql.query(hsql, (err, result) => {
+        logUtil.log(hsql)
         if (err) {
-            handleError('[SELECT ERROR]:'+err.message);
+            logUtil.handleError('[SELECT ERROR]:' + err.message);
         }
         let hasMore = false
         res.json({
@@ -64,7 +42,7 @@ const addArticle = async (req, res, next) => {
                 code: 500,
                 data: err
             })
-            console.log('[SELECT ERROR]:', err.message);
+            console.logUtil.log('[SELECT ERROR]:', err.message);
         }
 
     });
@@ -72,13 +50,21 @@ const addArticle = async (req, res, next) => {
 //获得某一篇文章
 const getArticle = async (req, res, next) => {
     let articleId = req.query.id || ''
-    var sql = `SELECT * FROM users right join article on users.userId = article.userId where article.articleId=${articleId}`;
+    if(!!!articleId){
+        res.json({
+            code: 'E0002',
+            msg: '参数错误',
+        })
+        return false
+    }
+    var sql = `SELECT title,articleId,userName,createTime,updateTime,description,contents FROM users right join article on users.userId = article.userId where article.articleId=${articleId}`;
     mysql.query(sql, (err, result) => {
-        console.log(result);
+     
         if (err) {
-            console.log('[SELECT ERROR]:', err.message);
+            console.logUtil.log('[SELECT ERROR]:', err.message);
         }
-        if (result.length > 0) {
+        if (result && result.length > 0) {
+            logUtil.log('[select article success] article title: '+result[0].title);
             res.json({
                 code: 'A0000',
                 msg: 'success',
@@ -106,9 +92,9 @@ const updateArticle = async (req, res, next) => {
                 code: 500,
                 msg: err.message
             })
-            console.log('[SELECT ERROR]:', err.message);
+            console.logUtil.log('[SELECT ERROR]:', err.message);
         } else {
-            console.log('更新数据库成功');
+            logUtil.log('文章添加成功');
             res.json({
                 code: 'A0000',
                 msg: 'success',

@@ -2,16 +2,11 @@ const mysql = require('mysql');
 
 let connection = mysql.createConnection({
     host: 'foreverheart.top',
-    user: 'youpin',
+    user: 'root',
     password: '123456',
     port: '3306',
-    database: 'youpin',
+    database: 'blog',
 });
 //数据库连接
-connection.connect(function (err) {
-    if (err) {
-        console.log("err:", err);
-        return;
-    }
-});
+connection.connect();
 module.exports = connection;

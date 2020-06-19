@@ -1,15 +1,39 @@
 const mysql = require('../utils/mysqlConfig')
 const moment = require('moment')
+const path = require('path');
+const fs = require('fs')
+
+function log(res){
+	let options = {
+	 flags: 'a', // 
+	 encoding: 'utf8', // utf8编码
+	}
+	let logpath = path.join(__dirname,'../log/request.log')
+	let stderr = fs.createWriteStream(logpath, options);
+	let logger = new console.Console(stderr);
+	let timestamp = new Date()
+    logger.log(timestamp+res);
+}
+function handleError(err) {
+    if (err) {
+        // 如果是连接异常，自动重新连接
+         log('[SELECT ERROR]:'+JSON.stringify(err));
+        if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR' || err.code === 'ETIMEDOUT') {
+            mysql.connect();
+        } else {
+            console.error(err.stack || err);
+        }
+    }
+}
 //获取文章列表
 const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
     let pageSize = req.query.pageSize || 20
     pageNo = (pageNo - 1) * pageSize
     var sql = `SELECT * FROM users right join article on users.userId = article.userId ORDER BY articleId LIMIT ${pageNo}, ${pageSize}`;
-    // var sqlNext = `SELECT * FROM users right join article on users.userId = article.userId ORDER BY articleId LIMIT ${pageNo+pageSize}, ${pageSize}`;
-    mysql.query(sql, (err, result) => {
+    await mysql.query(sql, (err, result) => {
         if (err) {
-            console.log('[SELECT ERROR]:', err.message);
+            handleError('[SELECT ERROR]:'+err.message);
         }
         let hasMore = false
         res.json({
@@ -20,23 +44,7 @@ const articleList = async (req, res, next) => {
                 list: result,
             }
         })
-        // mysql.query(sqlNext,(err,resw)=>{
-        //     let hasMore = false
-        //     if(resw.length>0){
-        //         hasMore = true
-        //     }
-        //     res.json({
-        //         code: 'A0000',
-        //         msg: 'success',
-        //         data: {
-        //             hasMore: hasMore,
-        //             list: result,
-        //         }
-        //     })
-        // })
-        
     });
-    // mysql.end();
 }
 //添加文章
 const addArticle = async (req, res, next) => {

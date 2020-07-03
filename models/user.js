@@ -2,8 +2,6 @@ const db = require('../utils/mysqlConfig')
 
 const crypto = require('crypto')
 
-
-
 const getUserInfoById = () => {
     var sql = 'SELECT * FROM users';
     db.connection().query(sql, function (err, result) {

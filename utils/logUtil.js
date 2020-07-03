@@ -1,39 +1,49 @@
 const path = require('path');
 const fs = require('fs')
 
-const writeFileRecursive = function(path, buffer, callback){
+const writeFileRecursive = function (path, buffer, callback) {
     let lastPath = path.substring(0, path.lastIndexOf("/"));
-    fs.mkdir(lastPath, {recursive: true}, (err) => {
+    console.log(lastPath)
+    fs.mkdir(lastPath, { recursive: true }, (err) => {
         if (err) return callback(err);
-        fs.writeFile(path, buffer, function(err){
+        fs.writeFile(path, buffer, function (err) {
             if (err) return callback(err);
             return callback(null);
         });
     });
 }
 
-const buffer = "test hahahhhhh";
-writeFileRecursive('../log/request.log', buffer, (err)=>{
-    if(err) console.error(err);
-    console.info("write success");
-});
-
 function log(res) {
     let options = {
         flags: 'a', // 
-        overwrite:false,
+        overwrite: false,
         encoding: 'utf8', // utf8编码
     }
     let logpath = path.join(__dirname, '../log/request.log')
-    let stderr = fs.createWriteStream(logpath, options);
+    //判断目录是否存在
+    try {
+        var stat = fs.statSync(path.join(__dirname, '../log'));
+        
+    } catch (error) {
+        console.log('websocket',error);
+        writeFileRecursive(logpath, res, (err) => {
+            if (err) console.error(err);
+            console.info("write success");
+        });
+    }
+    if(stat && stat.isDirectory()){//目录存在直接写文件
+        let stderr = fs.createWriteStream(logpath, options);
+        let logger = new console.Console(stderr);
+        let timestamp = new Date().toLocaleString()
+        logger.log(`[${timestamp}]: ${res}`);
+    }else{//不存在先创建文件
+        writeFileRecursive(logpath, res, (err) => {
+            if (err) console.error(err);
+            console.info("write success");
+        });
+    }
 
-    let logger = new console.Console(stderr);
-    let timestamp = new Date().toLocaleString()
-    logger.log(`[${timestamp}]: ${res}`);
 }
-
-
-log('re')
 
 function handleError(err) {
     if (err) {
@@ -47,7 +57,7 @@ function handleError(err) {
     }
 }
 
-module.exports ={
+module.exports = {
     log,
     handleError
 }

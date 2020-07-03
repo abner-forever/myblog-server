@@ -8,21 +8,21 @@
 
 文章
 
-1.http://localhost:3000/api/article/articleList?pageNo=1&pageSize=10   文章列表
+1./api/article/articleList?pageNo=1&pageSize=10   文章列表
 
-1.http://localhost:3000/api/article/getArticle?id=100022   根据获取某一篇文章
+1./api/article/getArticle?id=100022   根据获取某一篇文章
 
-1.http://localhost:3000/api/article/getArticlebyUser?id=1   获取某一作者的所有右文章篇文章
+1./api/article/getArticlebyUser?id=1   获取某一作者的所有右文章篇文章
 
-2.http://localhost:3000/api/article/addArticle   添加文章
+2./api/article/addArticle   添加文章
 
-3.http://localhost:3000/api/article/upDateArticle   更新文章
+3./api/article/upDateArticle   更新文章
 
-4.http://localhost:3000/api/article/removeArticle   删除文章
+4./api/article/removeArticle   删除文章
 
 
 用户信息
-http://localhost:3000/api/users/userinfo?id=
+/api/users/userinfo?id=
 
 ```
 "data": [
@@ -35,6 +35,39 @@ http://localhost:3000/api/users/userinfo?id=
 "contents": "文章内容"
 },
 ```
+文章信息
+```
+data:[
+    {
+        articleId:'10027',
+        title:'标题',
+        createTime:'',
+        updateTime:'',
+        description:'文章描述',
+        contents:'文章内容'
+    }
+]
+```
+
+#### 文章相关接口
+/api/article/articleList
+params:{
+    pageNo:1,//页码,
+    pageSize:10,//
+}
+1.文章列表：
+data:[
+    {
+        userName:'abner',
+        articleId:'10027',
+        title:'标题',
+        createTime:'',
+        updateTime:'',
+        description:'文章描述',
+        contents:'文章内容'
+    }
+]
+
 
 #### 接口 code定义
 

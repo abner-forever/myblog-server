@@ -1,6 +1,7 @@
 const mysql = require('../utils/mysqlConfig')
 const moment = require('moment')
 const logUtil = require('../utils/logUtil')
+const { log } = require('../utils/logUtil')
 //获取文章列表
 const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
@@ -60,7 +61,8 @@ const getArticle = async (req, res, next) => {
     var sql = `SELECT title,articleId,userName,createTime,updateTime,description,contents FROM blog_users right join blog_article on blog_users.userId = blog_article.userId where blog_article.articleId=${articleId}`;
     mysql.query(sql, (err, result) => {
      
-        if (err) {
+        if (err) {console.log(err)
+
             logUtil.log('[SELECT ERROR]:', err.message);
         }
         if (result && result.length > 0) {

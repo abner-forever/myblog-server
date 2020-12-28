@@ -20,6 +20,6 @@ var mysqlOption = {
 };
  
 var sqlconnection = mysql.createConnection(mysqlOption)
-//数据库连接ß
+//数据库连接
 var sessionStore = new MySQLStore({},sqlconnection)
 module.exports = sessionStore;

@@ -2,7 +2,7 @@ const mysql = require('../utils/mysqlConfig')
 const crypto = require('crypto')
 
 const getUserInfoById = async (id, callback) => {
-    var sql = `SELECT phone,userName,userId,sex FROM blog_users where blog_users.userId = ${id}`;
+    var sql = ``;
     mysql.query(sql, (err, result) => {
         if (err) {
             console.log('[SELECT ERROR]:', err.message);

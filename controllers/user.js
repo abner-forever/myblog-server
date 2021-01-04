@@ -1,28 +1,29 @@
-const mysql = require('../utils/mysqlConfig')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); //引入包
 const fs = require('fs')
 const path = require('path')
-const user_model = require('../models/user')
 var apiModel = require('../lib/mysql.js')
 
 const userInfo = (req, res, next) => {
-    let userId = req.query.userId || '*'
-    user_model.getUserInfoById(userId, (data) => {
-        if (data) {
+    let userId = req.query.userId
+    apiModel.getUserById(userId).then((data) => {
+        if (data.length > 0) {
             res.json({
                 code: 200,
-                data: data
+                data: data[0]
             })
         } else {
             res.json({
                 code: 500,
-                msg: '登录超时,token验证失败'
+                msg: '无此用户信息'
             })
         }
-
+    }).catch(() => {
+        res.json({
+            code: 500,
+            msg: '无此用户信息'
+        })
     })
-
 }
 
 const register = async (req, res, next) => {
@@ -31,7 +32,7 @@ const register = async (req, res, next) => {
     if (result) {
         res.json({
             code: 500,
-            msg: '用户名存在'
+            msg: '用户名已存在'
         })
         return
     }
@@ -67,11 +68,11 @@ const login = async (req, res, next) => {
         })
         return
     }
-    apiModel.checkUserByusername(userName).then((result) => {
+    apiModel.checkUserByusername(username).then((result) => {
         if (result.length == 0) {
             res.json({
                 code: 500,
-                msg: '用户名输入有误',
+                msg: '用户不存在',
             })
         }
         if (bcrypt.compareSync(password, result[0].password)) {

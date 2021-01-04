@@ -1,6 +1,4 @@
-const mysql = require('../utils/mysqlConfig')
 const moment = require('moment')
-const logUtil = require('../utils/logUtil')
 const apiModel = require('../lib/mysql.js')
 
 //获取文章列表
@@ -35,7 +33,6 @@ const articleList = async (req, res, next) => {
 //添加文章
 const addArticle = async (req, res, next) => {
     var params = req.body
-    console.log('params', req.query, params);
     let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     params.createTime = createTime
     apiModel.addArticle(params).then(()=>{
@@ -53,9 +50,7 @@ const addArticle = async (req, res, next) => {
 //获得某一篇文章
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
-    console.log('id',id);
     apiModel.geArticleById(id).then((result) => {
-        console.log('result',result);
         if (result.length > 0) {
             res.json({
                 code: 200,

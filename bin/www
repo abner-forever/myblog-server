@@ -81,7 +81,7 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+function onListening(params) {
   var addr = server.address();
-  console.log('Listening on ' + `localhost:${addr.port}`);
+  console.log(`Server running at http://localhost:${addr.port}`);
 }

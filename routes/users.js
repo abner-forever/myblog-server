@@ -8,5 +8,6 @@ const resApplicationJson = (req,res,next)=>{
 router.use(resApplicationJson)
 router.get('/userinfo',userController.userInfo);
 router.post('/register',userController.register);
+router.post('/login',userController.login);
 
 module.exports = router;

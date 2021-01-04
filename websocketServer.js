@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const expressWs = require('express-ws')
-const websocket = require('./routes/websocket')
+const websocket = require('./public/websocket')
 
 expressWs(app);
 

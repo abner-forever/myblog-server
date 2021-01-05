@@ -35,12 +35,12 @@ const addArticle = async (req, res, next) => {
     var params = req.body
     let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     params.createTime = createTime
-    apiModel.addArticle(params).then(()=>{
+    apiModel.addArticle(params).then(() => {
         res.json({
             code: 200,
             msg: 'add article success',
         })
-    }).catch(()=>{
+    }).catch(() => {
         res.json({
             code: 500,
             msg: 'add article fail',
@@ -87,9 +87,26 @@ const updateArticle = async (req, res, next) => {
         })
     })
 }
+const myarticleList = async (req, res, next) => {
+    let userId = req.query.userId || ""
+    apiModel.geArticleByUserId(userId).then(result=>{
+        res.json({
+            code: 200,
+            msg: 'ok',
+            data:result
+        })
+    }).catch(err=>{
+        res.json({
+            code:500,
+            msg:'fail'
+        })
+    })
+    
+}
 module.exports = {
     articleList,
     addArticle,
     updateArticle,
-    getArticle
+    getArticle,
+    myarticleList
 }

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken'); //引入包
 const fs = require('fs')
 const path = require('path')
 var apiModel = require('../lib/mysql.js')
+const bodyParser = require('body-parser');
 
 const userInfo = (req, res, next) => {
     let userId = req.query.userId
@@ -44,7 +45,8 @@ const register = async (req, res, next) => {
         userName: req.body.userName,
         sex: req.body.sex || '男',
         phone: req.body.phone || '19920181234',
-        password: hash
+        password: hash,
+        avatar:req.body.avatar
     }
     apiModel.register(params).then(() => {
         res.json({
@@ -59,6 +61,7 @@ const register = async (req, res, next) => {
     })
 }
 const login = async (req, res, next) => {
+    console.log('re',req);
     const username = req.body.userName || ''
     const password = req.body.password || ''
     if (!username || !password) {
@@ -101,8 +104,15 @@ const login = async (req, res, next) => {
         })
     })
 }
+const head = async(req,res,next)=>{
+    res.json({
+        code:200,
+        url:req.body.head
+    })
+}
 module.exports = {
     register,
     userInfo,
-    login
+    login,
+    head
 }

@@ -12,5 +12,6 @@ router.get('/getArticle', articleController.getArticle);
 router.get('/myarticleList', articleController.myarticleList);
 router.post('/addArticle', articleController.addArticle);
 router.post('/updateArticle', articleController.updateArticle);
+router.post('/removeArticle', articleController.removeArticle);
 
 module.exports = router;

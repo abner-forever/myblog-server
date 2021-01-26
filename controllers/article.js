@@ -103,10 +103,25 @@ const myarticleList = async (req, res, next) => {
     })
     
 }
+const removeArticle = async (req,res,next)=>{
+    var params = req.body.id
+    apiModel.removeArticle(params).then(() => {
+        res.json({
+            code: 200,
+            msg: 'remove article success',
+        })
+    }).catch((err) => {
+        res.json({
+            code: 500,
+            msg: 'remove fail',
+        })
+    })
+}
 module.exports = {
     articleList,
     addArticle,
     updateArticle,
     getArticle,
-    myarticleList
+    myarticleList,
+    removeArticle
 }

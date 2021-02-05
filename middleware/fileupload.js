@@ -12,7 +12,7 @@ var storage = multer.diskStorage({
         let _baseName = PATH.basename(_originalName, _extName) //文件名
         let _filename = _baseName + '_' + Date.now() + _extName
 
-        req.body.head = '/static/uploads/head/' + _filename
+        req.body.head = '/commonstatic/uploads/head/' + _filename
         cb(null, _filename)
     }
 })

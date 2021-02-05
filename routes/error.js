@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('*', function(req, res, next) {
-  res.render('error',{message:'error-page 404'})
+  res.render('error',{message:'404 page not found'})
 });
 
 module.exports = router;

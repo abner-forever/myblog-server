@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken'); //引入包
 const fs = require('fs')
 const path = require('path')
 var apiModel = require('../lib/mysql.js')
-const bodyParser = require('body-parser');
 
 const userInfo = (req, res, next) => {
     let userId = req.query.userId

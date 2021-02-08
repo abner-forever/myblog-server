@@ -1,6 +1,6 @@
 const moment = require('moment')
 const apiModel = require('../lib/mysql.js')
-
+const { handleData } = require('../utils')
 //获取文章列表
 const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
@@ -11,21 +11,15 @@ const articleList = async (req, res, next) => {
     if (pageNo * pageSize < count) {
         more = true
     }
+
     apiModel.acticleList(pageNo, pageSize).then((result) => {
-        res.json({
-            code: 200,
-            msg: 'success',
-            data: {
-                more: more,
-                total: count,
-                list: result
-            }
+        handleData(res, {
+            more: more,
+            total: count,
+            list: result
         })
-    }).catch(() => {
-        res.json({
-            code: 500,
-            msg: '数据查询失败fail',
-        })
+    }).catch((err) => {
+        handleData(res)
     })
 
 
@@ -89,21 +83,21 @@ const updateArticle = async (req, res, next) => {
 }
 const myarticleList = async (req, res, next) => {
     let userId = req.query.userId || ""
-    apiModel.geArticleByUserId(userId).then(result=>{
+    apiModel.geArticleByUserId(userId).then(result => {
         res.json({
             code: 200,
             msg: 'ok',
-            data:result
+            data: result
         })
-    }).catch(err=>{
+    }).catch(err => {
         res.json({
-            code:500,
-            msg:'fail'
+            code: 500,
+            msg: 'fail'
         })
     })
-    
+
 }
-const removeArticle = async (req,res,next)=>{
+const removeArticle = async (req, res, next) => {
     var params = req.body.id
     apiModel.removeArticle(params).then(() => {
         res.json({
@@ -117,11 +111,78 @@ const removeArticle = async (req,res,next)=>{
         })
     })
 }
+
+
+//获取文章评论
+const getArticleComments = async (req, res, next) => {
+    let param = req.query.id;
+    apiModel.getComments(param).then((result) => {
+        res.json({
+            code: 200,
+            msg: 'success',
+            data: result,
+        })
+    })
+}
+//发表评论
+const addComment = async (req, res, next) => {
+    let params = req.body;
+    if (params.content == '') {
+        res.json({
+            code: 500,
+            msg: '内容不能为空',
+        })
+    }
+    let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    params.moment = createTime;
+    params.createTimeStamp = Date.now();
+
+    apiModel.getUserByUserName(params.name||'').then((avator) => {
+        params.avator = avator[0].avator
+        apiModel.addComment(params).then((result, p) => {
+            res.json({
+                code: 200,
+                msg: 'success',
+            })
+        }).catch((err) => {
+            res.json({
+                code: 500,
+                msg: '评论失败',
+            })
+        })
+    }).catch((err)=>{
+        res.json({
+            code: 500,
+            msg: err.message,
+        })
+    })
+
+}
+//发表评论
+const removeComment = async (req, res, next) => {
+    let params = req.body.id;
+    apiModel.removeComment(params).then(() => {
+        res.json({
+            code: 200,
+            msg: 'success',
+        })
+    }).catch((err) => {
+        console.log('err', err);
+        res.json({
+            code: 500,
+            msg: '删除失败',
+        })
+    })
+}
+
 module.exports = {
     articleList,
     addArticle,
     updateArticle,
     getArticle,
     myarticleList,
-    removeArticle
+    removeArticle,
+    getArticleComments,
+    addComment,
+    removeComment
 }

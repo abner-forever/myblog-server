@@ -29,7 +29,7 @@ const userInfo = (req, res, next) => {
 const register = async (req, res, next) => {
     let userName = req.body.userName || ''
     let result = await apiModel.checkUserByusername(userName)
-    if (result.length>0) {
+    if (result.length > 0) {
         res.json({
             code: 500,
             msg: '用户名已存在'
@@ -45,7 +45,7 @@ const register = async (req, res, next) => {
         sex: req.body.sex || '男',
         phone: req.body.phone || '19920181234',
         password: hash,
-        avatar:req.body.avatar
+        avator: req.body.avator
     }
     apiModel.register(params).then(() => {
         res.json({
@@ -60,7 +60,7 @@ const register = async (req, res, next) => {
     })
 }
 const login = async (req, res, next) => {
-    console.log('re',req);
+    console.log('re', req);
     const username = req.body.userName || ''
     const password = req.body.password || ''
     if (!username || !password) {
@@ -103,10 +103,10 @@ const login = async (req, res, next) => {
         })
     })
 }
-const head = async(req,res,next)=>{
+const head = async (req, res, next) => {
     res.json({
-        code:200,
-        url:req.body.head
+        code: 200,
+        url: req.body.head
     })
 }
 module.exports = {

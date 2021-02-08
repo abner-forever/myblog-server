@@ -20,9 +20,9 @@ var storage = multer.diskStorage({
 //过滤文件类型
 function fileFilter(req, file, cb) {
     let _flag = file.mimetype.startsWith('image')
-    cb(_flag ? null : new Error('图片格式不正确'), _flag)
+    cb(_flag ? null : new Error('图片格式不正确-err'), _flag)
 }
-var upload = multer({storage, fileFilter }).single('avatar')
+var upload = multer({storage, fileFilter }).single('avator')
 
 const fileUpload = function (req, res, next) {
     upload(req, res, function (err) {
@@ -31,7 +31,7 @@ const fileUpload = function (req, res, next) {
             res.json( {
                 code: 500,
                 data: {
-                    msg: '图片格式不正确'
+                    msg: err
                 }
             })
         } else {

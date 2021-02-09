@@ -3,6 +3,7 @@ var router = express.Router();
 var articleController = require('../controllers/article')
 const resApplicationJson = (req,res,next)=>{
     res.set('content-type','appliction/json; charset=utf8')
+    res.setHeader('Access-Control-Allow-Origin', "*");
     next()
 }
 router.use(resApplicationJson)

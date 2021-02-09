@@ -60,7 +60,6 @@ const register = async (req, res, next) => {
     })
 }
 const login = async (req, res, next) => {
-    console.log('re', req);
     const username = req.body.userName || ''
     const password = req.body.password || ''
     if (!username || !password) {
@@ -109,9 +108,13 @@ const head = async (req, res, next) => {
         url: req.body.head
     })
 }
+const updateUserHead = async (req, res, next) => {
+    
+}
 module.exports = {
     register,
     userInfo,
     login,
-    head
+    head,
+    updateUserHead
 }

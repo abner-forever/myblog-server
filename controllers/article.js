@@ -16,6 +16,7 @@ const articleList = async (req, res, next) => {
         handleData(res, {
             more: more,
             total: count,
+            count:pageSize,
             list: result
         })
     }).catch((err) => {

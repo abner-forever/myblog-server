@@ -7,7 +7,6 @@ const handleData = (res, data, callbacks = {}) => {
         success: callbacks.success || none,
         fail: callbacks.fail || none
     }
-    console.log('data:', !data);
     if (!data) {
         fail()
         response.call(res, { code: 500, msg: '发生了不可预知的错误' })

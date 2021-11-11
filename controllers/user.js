@@ -21,7 +21,7 @@ const userInfo = (req, res, next) => {
     }).catch(() => {
         res.json({
             code: 500,
-            msg: '无此用户信息'
+            msg: '用户信息查询失败'
         })
     })
 }
@@ -108,13 +108,13 @@ const head = async (req, res, next) => {
         url: req.body.head
     })
 }
-const updateUserHead = async (req, res, next) => {
-    
+const updateUserInfo = async (req, res, next) => {
+
 }
 module.exports = {
     register,
     userInfo,
     login,
     head,
-    updateUserHead
+    updateUserInfo
 }

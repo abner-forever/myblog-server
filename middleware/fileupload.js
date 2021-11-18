@@ -11,7 +11,6 @@ var storage = multer.diskStorage({
         let _extName = PATH.extname(_originalName) //后缀名
         let _baseName = PATH.basename(_originalName, _extName) //文件名
         let _filename = _baseName + '_' + Date.now() + _extName
-
         req.body.head = '/commonstatic/uploads/head/' + _filename
         cb(null, _filename)
     }
@@ -20,7 +19,7 @@ var storage = multer.diskStorage({
 //过滤文件类型
 function fileFilter(req, file, cb) {
     let _flag = file.mimetype.startsWith('image')
-    cb(_flag ? null : new Error('图片格式不正确-err'), _flag)
+    cb(_flag ? null : new Error('图片格式不正确'), _flag)
 }
 var upload = multer({storage, fileFilter }).single('avator')
 

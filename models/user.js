@@ -19,7 +19,7 @@ const login = async (pwd, { password }) => {
     return (_password === password)
 }
 const checkUserByusername = async (userName,callback)=>{
-    var sql = `SELECT userName FROM blog_users where blog_users.userName = ${userName}`;
+    var sql = `SELECT userName FROM user where user.userName = ${userName}`;
     mysql.query(sql, (err, result) => {
         if (err) {
             console.log('[SELECT ERROR]:', err.message);

@@ -1,3 +1,4 @@
+const { config } = process.env
 const config = {
   // 启动端口
   port: 8080,
@@ -5,7 +6,7 @@ const config = {
   database: {
     DATABASE: 'blog',
     USERNAME: 'root',
-    PASSWORD: 'secrets.DATA_PASS_WORD',
+    PASSWORD: config.PASSWORD,
     PORT: '3306',
     HOST: 'foreverheart.top'
   }

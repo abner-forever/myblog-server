@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "publish": "",
-    "upload":"./upload.sh"
+    "ci":"./upload.sh"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

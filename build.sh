@@ -26,5 +26,4 @@ exit
 fi
 echo 清除缓存。。。
 rm -f *.tar.gz
-rm -rf ./dist
 echo 缓存清楚成功，退出脚本～

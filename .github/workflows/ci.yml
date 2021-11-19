@@ -1,11 +1,11 @@
 name: CI/CD
 on:
-  push:
+  push: # 监听push操作，任意push都会被触发
     branches:
       - master
+
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
     - name: Deploy
@@ -14,7 +14,6 @@ jobs:
         host: ${{ secrets.TG_HOST }}
         username: ${{ secrets.TG_USER }}
         password: ${{ secrets.TG_PASS }}
-        # 上面的流程都跟web项目类似，只有下面运行脚本不一致
         script: |
           cd /www/node/node-mysql
           git pull

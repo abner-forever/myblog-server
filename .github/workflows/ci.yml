@@ -21,4 +21,3 @@ jobs:
           export PATH=$PATH:$NODE_HOME/bin
           npm install
           npm run build
-​

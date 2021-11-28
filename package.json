@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "build": "pm2 start ./bin/www -watch",
+    "build": "pm2 restart ./bin/www --watch",
     "upload":"./build.sh"
   },
   "dependencies": {

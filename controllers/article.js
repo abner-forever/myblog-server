@@ -34,12 +34,20 @@ const addArticle = async (req, res, next) => {
         })
         return false;
     }
+    let result = await apiModel.checkArticleByTitle(title)
+    if (result.length > 0) {
+        res.json({
+            code: 500,
+            msg: '文章名称已经存在'
+        })
+        return
+    }
     let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     params.createTime = createTime
     apiModel.addArticle(params).then(() => {
         res.json({
             code: 200,
-            msg: 'add article success',
+            message: '文章添加成功',
         })
     }).catch(() => {
         res.json({
@@ -79,7 +87,7 @@ const updateArticle = async (req, res, next) => {
     apiModel.updateArticle(params).then(() => {
         res.json({
             code: 200,
-            msg: 'update article success',
+            message: '文章更新成功',
         })
     }).catch((err) => {
         res.json({

@@ -6,7 +6,7 @@ const config = {
   database: {
     DATABASE: 'blog',
     USERNAME: 'root',
-    PASSWORD: PASSWORD,
+    PASSWORD: '123456',
     PORT: '3306',
     HOST: 'foreverheart.top'
   }

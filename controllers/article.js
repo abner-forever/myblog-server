@@ -22,11 +22,18 @@ const articleList = async (req, res, next) => {
     }).catch((err) => {
         handleData(res)
     })
-
 }
 //添加文章
 const addArticle = async (req, res, next) => {
-    var params = req.body
+    var params = req.body;
+    const { title } = params;
+    if (!title) {
+        res.json({
+            code: 500,
+            msg: '文章标题不能为空',
+        })
+        return false;
+    }
     let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     params.createTime = createTime
     apiModel.addArticle(params).then(() => {
@@ -37,7 +44,7 @@ const addArticle = async (req, res, next) => {
     }).catch(() => {
         res.json({
             code: 500,
-            msg: 'add article fail',
+            msg: '文章添加失败',
         })
     })
 }

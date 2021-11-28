@@ -1,4 +1,8 @@
-const { PASSWORD } = process.env
+const { env } = require('process')
+const logUtil = require('../utils/logUtil')
+const PASSWORD = env.MYSQL_PASSWORD;
+logUtil.log(`PASSWORD-${PASSWORD}`);
+console.log(`PASSWORD-${PASSWORD}`);
 const config = {
   // 启动端口
   port: 8080,
@@ -6,10 +10,19 @@ const config = {
   database: {
     DATABASE: 'blog',
     USERNAME: 'root',
-    PASSWORD: '123456',
+    PASSWORD: PASSWORD,
     PORT: '3306',
     HOST: 'foreverheart.top'
   }
 }
+ 
+// 域名白名单
+const ALLOW_ORIGIN = [ 
+  'abner520.top',
+  'foreverheart.top',
+ ]
 
-module.exports = config
+module.exports = {
+  ...config,
+  ALLOW_ORIGIN
+}

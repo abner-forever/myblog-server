@@ -64,7 +64,10 @@ const getArticle = async (req, res, next) => {
             res.json({
                 code: 200,
                 msg: 'success',
-                data: result[0],
+                data: {
+                    ...result[0],
+                    content: decodeURIComponent(result[0].content)
+                },
             })
         } else {
             res.json({
@@ -89,13 +92,14 @@ const updateArticle = async (req, res, next) => {
             code: 200,
             message: '文章更新成功',
         })
-    }).catch((err) => {
+    }).catch((error) => {
         res.json({
             code: 500,
-            msg: 'update fail',
+            msg: `update fail: ${error.message}`,
         })
     })
 }
+// 我的文章列表
 const myarticleList = async (req, res, next) => {
     let userId = req.query.userId || ""
     apiModel.geArticleByUserId(userId).then(result => {
@@ -112,6 +116,7 @@ const myarticleList = async (req, res, next) => {
     })
 
 }
+// 删除文章列表
 const removeArticle = async (req, res, next) => {
     var params = req.body.id
     apiModel.removeArticle(params).then(() => {
@@ -153,7 +158,7 @@ const addComment = async (req, res, next) => {
     params.createTimeStamp = Date.now();
 
     apiModel.getUserByUserName(params.name||'').then((avator) => {
-        params.avator = avator[0].avator
+        params.avator = avator[0].avator || ''
         apiModel.addComment(params).then((result, p) => {
             res.json({
                 code: 200,

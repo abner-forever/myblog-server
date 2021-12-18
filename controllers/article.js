@@ -96,6 +96,7 @@ const updateArticle = async (req, res, next) => {
         })
     })
 }
+// 我的文章列表
 const myarticleList = async (req, res, next) => {
     let userId = req.query.userId || ""
     apiModel.geArticleByUserId(userId).then(result => {
@@ -112,6 +113,7 @@ const myarticleList = async (req, res, next) => {
     })
 
 }
+// 删除文章列表
 const removeArticle = async (req, res, next) => {
     var params = req.body.id
     apiModel.removeArticle(params).then(() => {
@@ -153,7 +155,7 @@ const addComment = async (req, res, next) => {
     params.createTimeStamp = Date.now();
 
     apiModel.getUserByUserName(params.name||'').then((avator) => {
-        params.avator = avator[0].avator
+        params.avator = avator[0].avator || ''
         apiModel.addComment(params).then((result, p) => {
             res.json({
                 code: 200,

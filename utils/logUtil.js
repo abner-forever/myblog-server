@@ -3,7 +3,6 @@ const fs = require('fs')
 
 const writeFileRecursive = function (path, buffer, callback) {
     let lastPath = path.substring(0, path.lastIndexOf("/"));
-    console.log(lastPath)
     fs.mkdir(lastPath, { recursive: true }, (err) => {
         if (err) return callback(err);
         fs.writeFile(path, buffer, function (err) {
@@ -19,10 +18,10 @@ function log(res) {
         overwrite: false,
         encoding: 'utf8', // utf8编码
     }
-    let logpath = path.join(__dirname, '../log/request.log')
+    let logpath = path.join(__dirname, '../logs/request.log')
     //判断目录是否存在
     try {
-        var stat = fs.statSync(path.join(__dirname, '../log'));
+        var stat = fs.statSync(path.join(__dirname, '../logs'));
         
     } catch (error) {
         console.log('websocket',error);

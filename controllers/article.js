@@ -64,7 +64,10 @@ const getArticle = async (req, res, next) => {
             res.json({
                 code: 200,
                 msg: 'success',
-                data: result[0],
+                data: {
+                    ...result[0],
+                    content: decodeURIComponent(result[0].content)
+                },
             })
         } else {
             res.json({
@@ -89,10 +92,10 @@ const updateArticle = async (req, res, next) => {
             code: 200,
             message: '文章更新成功',
         })
-    }).catch((err) => {
+    }).catch((error) => {
         res.json({
             code: 500,
-            msg: 'update fail',
+            msg: `update fail: ${error.message}`,
         })
     })
 }

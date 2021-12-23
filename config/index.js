@@ -11,5 +11,15 @@ const config = {
     HOST: 'foreverheart.top'
   }
 }
+ 
+// 域名白名单
+const ALLOW_ORIGIN = [ 
+  'abner520.top',
+  'foreverheart.top',
+ ]
 
 module.exports = config
+
+export{
+  ALLOW_ORIGIN
+}

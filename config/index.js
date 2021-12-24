@@ -1,4 +1,3 @@
-const { PASSWORD } = process.env
 const config = {
   // 启动端口
   port: 8080,
@@ -18,8 +17,7 @@ const ALLOW_ORIGIN = [
   'foreverheart.top',
  ]
 
-module.exports = config
-
-export{
+module.exports = {
+  ...config,
   ALLOW_ORIGIN
 }

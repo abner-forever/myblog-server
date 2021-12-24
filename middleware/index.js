@@ -5,6 +5,6 @@ const resApplicationJson = (req,res,next)=>{
     res.set('content-type','appliction/json; charset=utf8')
     next()
 }
-export {
+module.exports = {
     resApplicationJson
 }

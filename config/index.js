@@ -18,8 +18,8 @@ const config = {
  
 // 域名白名单
 const ALLOW_ORIGIN = [ 
-  'abner520.top',
-  'foreverheart.top',
+  'http://abner520.top',
+  'http://foreverheart.top',
  ]
 
 module.exports = {

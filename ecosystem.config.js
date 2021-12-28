@@ -1,3 +1,5 @@
+const { argv } = require('process');
+const MYSQL_PASSWORD = argv[argv.length-1];
 module.exports = {
   apps: [{
     name: 'blog_api',
@@ -9,10 +11,12 @@ module.exports = {
     instances: 1,
     autorestart: true,
     env: {
-      NODE_ENV: 'development'
+      NODE_ENV: 'development',
+      MYSQL_PASSWORD
     },
     env_production: {
-      NODE_ENV: 'production'
+      NODE_ENV: 'production',
+      MYSQL_PASSWORD
     }
   }],
   // deploy: {

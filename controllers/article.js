@@ -14,10 +14,10 @@ const articleList = async (req, res, next) => {
 
     apiModel.acticleList(pageNo, pageSize).then((result) => {
         handleData(res, {
+            list: result,
             more: more,
             total: count,
-            count:pageSize,
-            list: result
+            count:pageSize
         })
     }).catch((err) => {
         handleData(res)

@@ -1,9 +1,13 @@
-const { ALLOW_ORIGIN } = require('../config')
+// const { ALLOW_ORIGIN } = require('../config')
+
 
 const resApplicationJson = (req,res,next)=>{
-    res.header("Access-Control-Allow-Origin", ALLOW_ORIGIN)
+    // const currentOrigin = req.headers.referer;
+    // console.log('currentOrigin',currentOrigin);
+    // const whiteHost = ALLOW_ORIGIN.indexOf(currentOrigin) !== -1;
+    // res.header("Access-Control-Allow-Origin", "*")
     res.set('content-type','appliction/json; charset=utf8')
-    next()
+    next();
 }
 module.exports = {
     resApplicationJson

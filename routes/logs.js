@@ -5,6 +5,7 @@ const { resApplicationJson } = require('../middleware')
 
 router.use(resApplicationJson)
 /* GET users listing. */
-router.get('/logList', logController.logList);
+router.get('/list', logController.logList);
+
 
 module.exports = router;

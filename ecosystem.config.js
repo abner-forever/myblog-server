@@ -1,5 +1,6 @@
 const { argv } = require('process');
-const MYSQL_PASSWORD = argv[argv.length-1];
+const MYSQL_PASSWORD = argv[argv.length - 1];
+console.log('ecosystem.config.js-MYSQL_PASSWORD', MYSQL_PASSWORD);
 module.exports = {
   apps: [{
     name: 'blog_api',
@@ -7,9 +8,10 @@ module.exports = {
     watch: '.',
     error_file: "./logs/error.log",//错误输出日志
     out_file: "./logs/out.log",  //日志
-    log_date_format: "YYYY-MM-DD HH:mm Z", //日期格式
+    log_date_format: "YYYY/MM/DD HH:mm:ss", //日期格式
     instances: 1,
     autorestart: true,
+    restart_delay: 60,
     env: {
       NODE_ENV: 'development',
       MYSQL_PASSWORD

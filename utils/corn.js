@@ -1,5 +1,7 @@
 var cron = require('node-cron');
 const path = require('path');
+const { juejin } = require('./juejin_sign')
+
 const fs = require('fs');
 let time = 0
 const clearLog = () => {
@@ -18,6 +20,13 @@ const clearLog = () => {
     }
   });
 }
+
+const sign = () => {
+  cron.schedule('0 0 10 * * ?', () => {  // 每个月清除一次请求日志
+    juejin();
+  });
+}
 module.exports = {
-  clearLog
+  clearLog,
+  sign
 }

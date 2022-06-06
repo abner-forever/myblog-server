@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 var errorRouter = require('./routes/error');
 var articleRouter = require('./routes/article');
 var logsRouter = require('./routes/logs');
-const { clearLog } = require('./utils/corn')
+const { clearLog, sign } = require('./utils/corn')
 
 var app = express();
 
@@ -33,7 +33,9 @@ app.use('/api/logs', logsRouter);
 
 app.use('*', errorRouter);
 
-clearLog()
+clearLog();
+
+sign();
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development

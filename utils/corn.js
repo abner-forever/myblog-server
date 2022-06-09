@@ -22,7 +22,7 @@ const clearLog = () => {
 }
 
 const sign = () => {
-  cron.schedule('0 0 10 * * ?', () => {  // 每个月清除一次请求日志
+  cron.schedule('0 10 * * *', () => {  // 每天上午10点执行
     juejin();
   });
 }

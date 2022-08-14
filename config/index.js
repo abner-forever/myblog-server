@@ -1,8 +1,7 @@
 const { env } = require('process')
-const logUtil = require('../utils/logUtil')
+// const logUtil = require('../utils/logUtil')
 const PASSWORD = env.MYSQL_PASSWORD;
-logUtil.log(`PASSWORD-${PASSWORD}`);
-console.log(`PASSWORD-${PASSWORD}`);
+// logUtil.log(`config-log-${JSON.stringify(env.MYSQL_PASSWORD)}`);
 const config = {
   // 启动端口
   port: 8080,
@@ -17,9 +16,15 @@ const config = {
 }
  
 // 域名白名单
-const ALLOW_ORIGIN = [ 
+// const ALLOW_ORIGIN = [ 
+//   'abner520.top',
+//   'foreverheart.top',
+//   'localhost'
+//  ]
+ const ALLOW_ORIGIN = [ 
   'abner520.top',
   'foreverheart.top',
+  'http://localhost:3000/'
  ]
 
 module.exports = {

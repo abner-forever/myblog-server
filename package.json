@@ -6,9 +6,10 @@
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
     "upload": "./build.sh",
-    "pm2":"pm2 start ecosystem.config.js"
+    "pm2": "pm2 start ecosystem.config.js"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -18,11 +19,13 @@
     "express-ws": "^4.0.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "markdown-it": "^12.0.4",
-    "moment": "^2.24.0",
+    "markdown-it": "^12.3.2",
+    "moment": "^2.29.2",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
-    "mysql": "^2.17.1"
+    "mysql": "^2.17.1",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.7.5"
   },
   "devDependencies": {
     "jsonwebtoken": "^8.5.1"

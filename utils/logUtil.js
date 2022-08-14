@@ -34,7 +34,7 @@ function log(res) {
         let stderr = fs.createWriteStream(logpath, options);
         let logger = new console.Console(stderr);
         let timestamp = new Date().toLocaleString()
-        logger.log(`[${timestamp}]: ${res}`);
+        logger.log(`${timestamp}: ${res}`);
     }else{//不存在先创建文件
         writeFileRecursive(logpath, res, (err) => {
             if (err) console.error(err);

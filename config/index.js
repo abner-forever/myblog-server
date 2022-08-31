@@ -1,7 +1,7 @@
 const { env } = require('process')
-// const logUtil = require('../utils/logUtil')
+const logUtil = require('../utils/logUtil')
 const PASSWORD = env.MYSQL_PASSWORD;
-// logUtil.log(`config-log-${JSON.stringify(env.MYSQL_PASSWORD)}`);
+console.log(`config-log`,PASSWORD);
 const config = {
   // 启动端口
   port: 8080,
@@ -9,7 +9,7 @@ const config = {
   database: {
     DATABASE: 'blog',
     USERNAME: 'root',
-    PASSWORD: PASSWORD,
+    PASSWORD: '123456',
     PORT: '3306',
     HOST: 'foreverheart.top'
   }

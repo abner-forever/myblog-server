@@ -18,15 +18,14 @@ function log(res) {
         overwrite: false,
         encoding: 'utf8', // utf8编码
     }
-    let logpath = path.join(__dirname, '../logs/request.log')
+    let logpath = './logs/request.log'
     //判断目录是否存在
     try {
         var stat = fs.statSync(path.join(__dirname, '../logs'));
-        
     } catch (error) {
-        console.log('websocket',error);
+        console.error('no logs dir',error.message);
         writeFileRecursive(logpath, res, (err) => {
-            if (err) console.error(err);
+            if (err) return console.error('writeFileRecursive error', err);
             console.info("write success");
         });
     }
@@ -37,7 +36,7 @@ function log(res) {
         logger.log(`${timestamp}: ${res}`);
     }else{//不存在先创建文件
         writeFileRecursive(logpath, res, (err) => {
-            if (err) console.error(err);
+            if (err) return console.error(err);
             console.info("write success");
         });
     }

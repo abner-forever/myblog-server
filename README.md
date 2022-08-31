@@ -1,7 +1,10 @@
-# 启动
+# node服务器连接mysql数据库
+> 博客后台项目
+## 启动
+1. 开发调试
 yarn dev MYSQL_PASSWORD 数据库密码
 
-### pm2启动
+2. pm2启动
 pm2 start blog_api --watch
 
 - 配置文件
@@ -9,7 +12,6 @@ pm2 start blog_api --watch
 - 配置文件启动
     yarn pm2 --env 数据库密码
 
-# node服务器连接mysql数据库
 ## Start
 1. 启动
    1. 

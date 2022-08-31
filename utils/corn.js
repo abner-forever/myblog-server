@@ -1,7 +1,7 @@
 var cron = require('node-cron');
 const path = require('path');
 const { juejin } = require('./juejin_sign')
-const { juejinwenchang } = require('./juejin_sign_wenchang')
+const { juejin_wenchang } = require('./juejin_sign_wenchang')
 
 const fs = require('fs');
 let time = 0
@@ -25,7 +25,7 @@ const clearLog = () => {
 const sign = () => {
   cron.schedule('0 10 * * *', () => {  // 每天上午10点执行
     juejin();
-    juejinwenchang();
+    juejin_wenchang();
   });
 }
 module.exports = {

@@ -1,5 +1,5 @@
-const { argv } = require('process')
-const PASSWORD = argv.slice(2)[0]
+const { env,argv } = require('process')
+const PASSWORD = env.MYSQL_PASSWORD || argv.slice(3)[0];
 
 const config = {
   // 启动端口

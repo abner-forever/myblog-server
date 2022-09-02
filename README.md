@@ -2,7 +2,7 @@
 > 博客后台项目
 ## 启动
 1. 开发调试
-yarn dev 数据库密码
+yarn dev --env 数据库密码
 
 1. pm2启动
 pm2 start blog_api --watch
@@ -10,7 +10,7 @@ pm2 start blog_api --watch
 - 配置文件
     ecosystem.config.js
 - 配置文件启动
-    yarn pm2 --env 数据库密码
+    yarn run pm2 --env 数据库密码
 
 ## Start
 1. 启动

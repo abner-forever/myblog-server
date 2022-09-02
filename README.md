@@ -2,9 +2,9 @@
 > 博客后台项目
 ## 启动
 1. 开发调试
-yarn dev MYSQL_PASSWORD 数据库密码
+yarn dev 数据库密码
 
-2. pm2启动
+1. pm2启动
 pm2 start blog_api --watch
 
 - 配置文件

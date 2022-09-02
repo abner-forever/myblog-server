@@ -1,6 +1,7 @@
 const moment = require('moment')
 const apiModel = require('../lib/mysql.js')
 const { handleData } = require('../utils')
+const { base64toStr } = require('../utils/base64.js')
 //获取文章列表
 const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
@@ -11,13 +12,16 @@ const articleList = async (req, res, next) => {
     if (pageNo * pageSize < count) {
         more = true
     }
-
     apiModel.acticleList(pageNo, pageSize).then((result) => {
+        result.map((item) => {
+            item.description = base64toStr(item.description)
+            return item
+        })
         handleData(res, {
             list: result,
             more: more,
             total: count,
-            count:pageSize
+            count: pageSize
         })
     }).catch((err) => {
         handleData(res)
@@ -35,16 +39,21 @@ const addArticle = async (req, res, next) => {
         return false;
     }
     let result = await apiModel.checkArticleByTitle(title)
-    if (result.length > 0) {
-        res.json({
-            code: 500,
-            msg: '文章名称已经存在'
+    if (result?.length > 0) {
+        apiModel.updateArticle(params).then(() => {
+            res.json({
+                code: 200,
+                message: '文章更新成功',
+            })
+        }).catch((error) => {
+            res.json({
+                code: 500,
+                msg: `update fail: ${error.message}`,
+            })
         })
-        return
+        return;
     }
-    let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
-    params.createTime = createTime
-    apiModel.addArticle(params).then(() => {
+    apiModel.addArticle(params).then((_res) => {
         res.json({
             code: 200,
             message: '文章添加成功',
@@ -56,17 +65,18 @@ const addArticle = async (req, res, next) => {
         })
     })
 }
-//获得某一篇文章
+//根据文章id获取文章
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
+        const content = base64toStr(result[0]?.content);
         if (result.length > 0) {
             res.json({
                 code: 200,
                 msg: 'success',
                 data: {
                     ...result[0],
-                    content: decodeURIComponent(result[0].content)
+                    content
                 },
             })
         } else {
@@ -103,6 +113,10 @@ const updateArticle = async (req, res, next) => {
 const myarticleList = async (req, res, next) => {
     let userId = req.query.userId || ""
     apiModel.geArticleByUserId(userId).then(result => {
+        result.map((item) => {
+            item.description = base64toStr(item.description)
+            return item
+        })
         res.json({
             code: 200,
             msg: 'ok',
@@ -157,9 +171,11 @@ const addComment = async (req, res, next) => {
     params.moment = createTime;
     params.createTimeStamp = Date.now();
 
-    apiModel.getUserByUserName(params.name||'').then((avator) => {
-        params.avator = avator[0].avator || ''
-        apiModel.addComment(params).then((result, p) => {
+    apiModel.getUserById(params.userId || '').then((result) => {
+        params.avator = result[0].avator || ''
+        params.userName = result[0].userName || ''
+        apiModel.addComment(params).then((_res) => {
+            console.log('res', _res);
             res.json({
                 code: 200,
                 msg: 'success',
@@ -167,10 +183,10 @@ const addComment = async (req, res, next) => {
         }).catch((err) => {
             res.json({
                 code: 500,
-                msg: '评论失败',
+                msg: `评论失败: ${err.message}`,
             })
         })
-    }).catch((err)=>{
+    }).catch((err) => {
         res.json({
             code: 500,
             msg: err.message,

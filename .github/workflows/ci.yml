@@ -18,7 +18,8 @@ jobs:
           script: |
            cd /www/node/node-mysql
            git pull origin master
-           export NODE_HOME=/usr/local/lib/nodejs/node-v16.14.2-linux-x64
+           export NODE_HOME=/usr/local/lib/nodejs/node-v16.13.0-linux-x64
            export PATH=$PATH:$NODE_HOME/bin
+           node -v
            yarn
            yarn run pm2 --env ${{secrets.MYSQL_PASSWORD}}

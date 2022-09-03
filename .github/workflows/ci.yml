@@ -22,4 +22,4 @@ jobs:
            export PATH=$PATH:$NODE_HOME/bin
            node -v
            yarn
-           yarn run pm2 --env ${{secrets.MYSQL_PASSWORD}}
+           yarn run pm2 ${{secrets.MYSQL_PASSWORD}}

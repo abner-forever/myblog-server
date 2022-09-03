@@ -39,7 +39,7 @@ const addArticle = async (req, res, next) => {
         return false;
     }
     let result = await apiModel.checkArticleByTitle(title)
-    if (result?.length > 0) {
+    if (result && result.length > 0) {
         apiModel.updateArticle(params).then(() => {
             res.json({
                 code: 200,
@@ -69,7 +69,7 @@ const addArticle = async (req, res, next) => {
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
-        const content = base64toStr(result[0]?.content);
+        const content = base64toStr(result[0].content);
         if (result.length > 0) {
             res.json({
                 code: 200,

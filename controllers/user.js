@@ -29,7 +29,7 @@ const userInfo = (req, res, next) => {
 const register = async (req, res, next) => {
     let userName = req.body.userName || ''
     let result = await apiModel.checkUserByusername(userName)
-    if (result?.length > 0) {
+    if (result && result.length > 0) {
         res.json({
             code: 500,
             msg: '用户名已存在'
@@ -70,7 +70,7 @@ const login = async (req, res, next) => {
         return
     }
     apiModel.checkUserByusername(username).then((result) => {
-        if (result?.length == 0) {
+        if (result && result.length == 0) {
             res.json({
                 code: 500,
                 msg: '用户不存在',

@@ -7,7 +7,7 @@ const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
     let pageSize = req.query.pageSize || 20
     let count = await apiModel.articleCount();
-    count = count?.[0]?.count || 0
+    count = count[0] || count[0].count || 0
     let more = false;
     if (pageNo * pageSize < count) {
         more = true

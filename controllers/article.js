@@ -7,14 +7,14 @@ const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
     let pageSize = req.query.pageSize || 20
     let count = await apiModel.articleCount();
-    count = count[0].count || 0
+    count = count?.[0]?.count || 0
     let more = false;
     if (pageNo * pageSize < count) {
         more = true
     }
     apiModel.acticleList(pageNo, pageSize).then((result) => {
         result.map((item) => {
-            item.description = base64toStr(item.description)
+            item.description = item.description
             return item
         })
         handleData(res, {
@@ -69,14 +69,14 @@ const addArticle = async (req, res, next) => {
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
-        const content = base64toStr(result[0].content);
+        // const content = base64toStr(result[0].content);
         if (result.length > 0) {
             res.json({
                 code: 200,
                 msg: 'success',
                 data: {
                     ...result[0],
-                    content
+                    // content
                 },
             })
         } else {
@@ -125,7 +125,7 @@ const myarticleList = async (req, res, next) => {
     }).catch(err => {
         res.json({
             code: 500,
-            msg: 'fail'
+            msg: `fail: ${err.message}`
         })
     })
 

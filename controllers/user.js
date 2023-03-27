@@ -43,7 +43,7 @@ const register = async (req, res, next) => {
         userId: null,
         userName: req.body.userName,
         sex: req.body.sex || 1,
-        phone: req.body.phone || '19920181234',
+        phone: req.body.phone,
         password: hash,
         avator: req.body.avator
     }

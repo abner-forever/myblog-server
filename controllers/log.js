@@ -9,8 +9,8 @@ const logList = (req,res,next) => {
     try {
         const logFileMap = {
             'request':'./logs/request.log',
-            'out':'./logs/out-0.log',
-            'error':'./logs/error-0.log',
+            'out':'./logs/pm2_log-0.log',
+            'error':'./logs/pm2_error-0.log',
         }
         const requestType = req.query.type || 'request'
         const log_txt  = fs.readFileSync(logFileMap[requestType],"utf-8");

@@ -69,14 +69,14 @@ const addArticle = async (req, res, next) => {
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
-        const content = base64toStr(result[0].content);
+        // const content = base64toStr(result[0].content);
         if (result.length > 0) {
             res.json({
                 code: 200,
                 msg: 'success',
                 data: {
                     ...result[0],
-                    content
+                    // content
                 },
             })
         } else {

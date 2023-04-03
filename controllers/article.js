@@ -2,6 +2,7 @@ const moment = require('moment')
 const apiModel = require('../lib/mysql.js')
 const { handleData } = require('../utils')
 const { base64toStr } = require('../utils/base64.js')
+
 //获取文章列表
 const articleList = async (req, res, next) => {
     let pageNo = req.query.pageNo || 1
@@ -14,7 +15,7 @@ const articleList = async (req, res, next) => {
     }
     apiModel.acticleList(pageNo, pageSize).then((result) => {
         result.map((item) => {
-            item.description = item.description
+            item.description = base64toStr(item.description)
             return item
         })
         handleData(res, {
@@ -69,14 +70,14 @@ const addArticle = async (req, res, next) => {
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
-        // const content = base64toStr(result[0].content);
+        const content = base64toStr(result[0].content);
         if (result.length > 0) {
             res.json({
                 code: 200,
                 msg: 'success',
                 data: {
                     ...result[0],
-                    // content
+                    content
                 },
             })
         } else {

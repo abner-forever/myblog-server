@@ -4,7 +4,7 @@ const MYSQL_PASSWORD = argv.slice(-1)[0]
 module.exports = {
   apps: [{
     name: 'blog_api',
-    script: './bin/www',
+    exec: './myblog.server.bundle.js',
     watch: './',
     error_file: "./logs/pm2_error.log",//错误输出日志
     out_file: "./logs/pm2_log.log",  //日志

@@ -1,25 +1,54 @@
-name: CI/CD
+name: 打包应用并上传服务器
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   build:
+    # runs-on 指定job任务运行所需要的虚拟机环境(必填字段)
     runs-on: ubuntu-latest
     steps:
-    - name: SSH Remote deploy
-      uses: appleboy/ssh-action@master
-      with: 
-          host: ${{ secrets.TG_HOST }}
-          username: ${{ secrets.TG_USER }}
-          password: ${{ secrets.TG_PASS }}
-          port: ${{ secrets.REMOTE_PORT }}
-          script: |
-           cd /www/node/node-mysql
-           git pull origin master
-           export NODE_HOME=/usr/local/lib/nodejs/node-v16.13.0-linux-x64
-           export PATH=$PATH:$NODE_HOME/bin
-           node -v
-           yarn
-           yarn run pm2 ${{secrets.MYSQL_PASSWORD}}
+      # 获取源码
+      - name: 迁出代码
+        # 使用action库  actions/checkout获取源码
+        uses: actions/checkout@master
+      # 安装Node10
+
+      - name: 安装node.js
+        # 使用action库  actions/setup-node安装node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.15.0
+
+      # 安装依赖
+      - name: 安装依赖
+        run: yarn
+
+      # 打包
+      - name: 打包
+        run: yarn build
+
+      # 构建release
+      - name: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release
+
+      # 上传阿里云
+      - name: 上传
+        uses: easingthemes/ssh-deploy@v2.1.1
+        env:
+          # 私钥 这里是阿里云的私钥 使用本地的私钥
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          # scp参数
+          ARGS: "-avzr --delete"
+          # 源目录
+          SOURCE: "./dist"
+          # 服务器ip：换成你的服务器IP
+          REMOTE_HOST: "foreverheart.top"
+          # 用户
+          REMOTE_USER: "root"
+          # 目标地址
+          TARGET: "/www/site/server"

@@ -3,8 +3,8 @@ const path = require('path');
 const { juejin } = require('./juejin_sign')
 const { juejin_wenchang } = require('./juejin_sign_wenchang')
 
-const fs = require('fs');
-let time = 0
+// const fs = require('fs');
+// let time = 0
 const clearLog = () => {
   let logpath = path.join(__dirname, '../logs/out-0.log')
   // cron.schedule('* * 1 * *', () => {  // 每个月清除一次请求日志

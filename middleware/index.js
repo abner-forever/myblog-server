@@ -2,13 +2,11 @@ const fs = require('fs')
 var path = require('path');
 const { expressjwt } = require('express-jwt')
 
-let private_key = fs.readFileSync(path.join(__dirname, '../key/private_key.pem'))
-
 const resApplicationJson = (req,res, next) => {
     res.set('content-type', 'appliction/json; charset=utf8')
     next();
 }
-
+let private_key = 'abner-test'
 const checkToken = expressjwt({
     // 解析口令, 需要和加密的时候一致
     secret: private_key,

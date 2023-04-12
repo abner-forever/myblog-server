@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/abner-forever/myblog-server/compare/v1.0.1...v1.0.2) (2023-04-12)
+
+
+### Bug Fixes
+
+* 修改登录接口 ([1616bd7](https://github.com/abner-forever/myblog-server/commit/1616bd727af3fdd37063685f2602f03c6d856e27))
+
 ## [1.0.1](https://github.com/abner-forever/myblog-server/compare/v1.0.0...v1.0.1) (2023-04-11)
 
 

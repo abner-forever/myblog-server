@@ -9,6 +9,8 @@ var usersRouter = require('./routes/users');
 var errorRouter = require('./routes/error');
 var articleRouter = require('./routes/article');
 var logsRouter = require('./routes/logs');
+const {checkToken} = require('./middleware')
+
 const { clearLog, sign } = require('./utils/corn')
 
 var app = express();
@@ -19,9 +21,12 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 
+app.use(checkToken)
+
 app.use(bodyParser.json());//数据JSON类型
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 app.use(bodyParser.json({ limit: '50mb' }))
+
 app.use(cookieParser());
 app.use('/commonstatic', express.static(path.join(__dirname, 'public')));
 
@@ -34,6 +39,7 @@ app.use('/api/logs', logsRouter);
 app.use('*', errorRouter);
 
 clearLog();
+
 
 sign();
 // error handler

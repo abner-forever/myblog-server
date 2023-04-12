@@ -18,16 +18,20 @@ const articleList = async (req, res, next) => {
             item.description = base64toStr(item.description)
             return item
         })
-        handleData(res, {
-            list: result,
-            more: more,
-            total: count,
-            count: pageSize
+        handleData({
+            res,
+            data: {
+                list: result,
+                more: more,
+                total: count,
+                count: pageSize
+            }
         })
-    }).catch((err) => {
-        handleData(res)
+    }).catch((error) => {
+        handleData({ res, error })
     })
 }
+
 //添加文章
 const addArticle = async (req, res, next) => {
     var params = req.body;
@@ -35,7 +39,7 @@ const addArticle = async (req, res, next) => {
     if (!title) {
         res.json({
             code: 500,
-            msg: '文章标题不能为空',
+            message: '文章标题不能为空',
         })
         return false;
     }
@@ -49,7 +53,7 @@ const addArticle = async (req, res, next) => {
         }).catch((error) => {
             res.json({
                 code: 500,
-                msg: `update fail: ${error.message}`,
+                message: `update fail: ${error.message}`,
             })
         })
         return;
@@ -62,37 +66,32 @@ const addArticle = async (req, res, next) => {
     }).catch(() => {
         res.json({
             code: 500,
-            msg: '文章添加失败',
+            message: '文章添加失败',
         })
     })
 }
+
 //根据文章id获取文章
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
-        const content = base64toStr(result[0].content);
+        const content = result[0] && base64toStr(result[0].content);
         if (result.length > 0) {
-            res.json({
-                code: 200,
-                msg: 'success',
+            handleData({
+                res,
                 data: {
                     ...result[0],
                     content
-                },
+                }
             })
         } else {
-            res.json({
-                code: 'E0001',
-                msg: '没有这篇文章',
-            })
+            handleData({ res, error: '文章不见了' })
         }
-    }).catch(() => {
-        res.json({
-            code: 500,
-            msg: '文章查询失败',
-        })
+    }).catch((error) => {
+        handleData({ res, error })
     })
 }
+
 //更新文章
 const updateArticle = async (req, res, next) => {
     var params = req.body
@@ -106,7 +105,7 @@ const updateArticle = async (req, res, next) => {
     }).catch((error) => {
         res.json({
             code: 500,
-            msg: `update fail: ${error.message}`,
+            message: `update fail: ${error.message}`,
         })
     })
 }
@@ -120,13 +119,13 @@ const myarticleList = async (req, res, next) => {
         })
         res.json({
             code: 200,
-            msg: 'ok',
+            message: 'ok',
             data: result
         })
     }).catch(err => {
         res.json({
             code: 500,
-            msg: `fail: ${err.message}`
+            message: `fail: ${err.message}`
         })
     })
 
@@ -137,12 +136,12 @@ const removeArticle = async (req, res, next) => {
     apiModel.removeArticle(params).then(() => {
         res.json({
             code: 200,
-            msg: 'remove article success',
+            message: 'remove article success',
         })
     }).catch((err) => {
         res.json({
             code: 500,
-            msg: 'remove fail',
+            message: 'remove fail',
         })
     })
 }
@@ -154,7 +153,7 @@ const getArticleComments = async (req, res, next) => {
     apiModel.getComments(param).then((result) => {
         res.json({
             code: 200,
-            msg: 'success',
+            message: 'success',
             data: result,
         })
     })
@@ -165,7 +164,7 @@ const addComment = async (req, res, next) => {
     if (params.content == '') {
         res.json({
             code: 500,
-            msg: '内容不能为空',
+            message: '内容不能为空',
         })
     }
     let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
@@ -179,18 +178,18 @@ const addComment = async (req, res, next) => {
             console.log('res', _res);
             res.json({
                 code: 200,
-                msg: 'success',
+                message: 'success',
             })
         }).catch((err) => {
             res.json({
                 code: 500,
-                msg: `评论失败: ${err.message}`,
+                message: `评论失败: ${err.message}`,
             })
         })
     }).catch((err) => {
         res.json({
             code: 500,
-            msg: err.message,
+            message: err.message,
         })
     })
 
@@ -201,13 +200,13 @@ const removeComment = async (req, res, next) => {
     apiModel.removeComment(params).then(() => {
         res.json({
             code: 200,
-            msg: 'success',
+            message: 'success',
         })
     }).catch((err) => {
         console.log('err', err);
         res.json({
             code: 500,
-            msg: '删除失败',
+            message: '删除失败',
         })
     })
 }

@@ -10,6 +10,7 @@ function bcryptHashSync(myPlaintextPassword, cost) {
   let hash = bcrypt.hashSync(myPlaintextPassword, salt);
   return hash;
 }
+let private_key = 'abner-test'
 
 const userInfo = (req, res, next) => {
   let userId = req.headers['user-id'] || req.query.userId;
@@ -86,7 +87,6 @@ const login = async (req, res, next) => {
         avator: null
       }
       apiModel.register(params).then(() => {
-        let private_key = fs.readFileSync(path.join(__dirname, '../key/private_key.pem'))
         let token = jwt.sign({ username, password }, private_key, { algorithm: 'RS256', expiresIn: '30d' });
         apiModel.checkUserByusername(username).then((_result) => {
           if (_result && _result.length == 1) {
@@ -114,7 +114,6 @@ const login = async (req, res, next) => {
       return;
     }
     if (bcrypt.compareSync(password, result[0].password)) {
-      let private_key = fs.readFileSync(path.join(__dirname, '../key/private_key.pem'))
       let token = jwt.sign({ username, password }, private_key, { algorithm: 'RS256', expiresIn: '30d' });
       res.json({
         code: 200,

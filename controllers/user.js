@@ -1,16 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const fs = require('fs')
-const path = require('path')
 var apiModel = require('../lib/mysql')
-const { handleData } = require('../utils')
+const { handleData, bcryptHashSync } = require('../utils')
+const { PRIVATE_KEY } = require('../config')
 
-function bcryptHashSync(myPlaintextPassword, cost) {
-  let salt = bcrypt.genSaltSync(cost);
-  let hash = bcrypt.hashSync(myPlaintextPassword, salt);
-  return hash;
-}
-let private_key = 'abner-test'
 
 const userInfo = (req, res, next) => {
   let userId = req.headers['user-id'] || req.query.userId;
@@ -76,8 +69,22 @@ const login = async (req, res, next) => {
   if (!username || !password) {
     return handleData({ res, error: '用户名或者密码不能为空' });
   }
-  apiModel.checkUserByusername(username).then((result) => {
-    if (result && result.length == 0) {
+  const phone = Number(username);
+  console.log('phone',phone);
+  let userInfo = null;
+  try {
+    if (!Object.is(phone, NaN)) {
+      if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(phone)) {
+        return handleData({ res, error: '请输入正确的手机号' });
+      }
+      let result = await apiModel.checkUserByPhone(phone);
+      userInfo = result.length && result[0];
+      console.log('userInfo',userInfo);
+    } else {
+      let result = await apiModel.checkUserByusername(username);
+      userInfo = result.length && result[0]
+    }
+    if (!userInfo) {
       let params = {
         userId: null,
         userName: req.body.userName,
@@ -87,7 +94,7 @@ const login = async (req, res, next) => {
         avator: null
       }
       apiModel.register(params).then(() => {
-        let token = jwt.sign({ username, password }, private_key, { algorithm: 'RS256', expiresIn: '30d' });
+        let token = jwt.sign({ username, password }, PRIVATE_KEY, { algorithm: 'RS256', expiresIn: 60 });
         apiModel.checkUserByusername(username).then((_result) => {
           if (_result && _result.length == 1) {
             res.json({
@@ -95,8 +102,7 @@ const login = async (req, res, next) => {
               msg: '登录成功',
               data: {
                 token: token,
-                userId: _result[0].userId,
-                userName: _result[0].userName,
+                userId: _result[0].id,
                 register: 1
               }
             })
@@ -109,36 +115,39 @@ const login = async (req, res, next) => {
         })
 
       }).catch(() => {
-        return handleData({ res, error: '登录失败，稍后再试试' });
+        return handleData({ res, error: '登录失败，稍后再试' });
       })
       return;
-    }
-    if (bcrypt.compareSync(password, result[0].password)) {
-      let token = jwt.sign({ username, password }, private_key, { algorithm: 'RS256', expiresIn: '30d' });
-      res.json({
-        code: 200,
-        msg: '登录成功',
-        data: {
-          token: token,
-          userId: result[0].userId,
-          userName: result[0].userName,
-          register: 0
-        }
-      })
     } else {
-      res.json({
-        code: 500,
-        msg: '用户名或密码错误',
-      })
+      if(!userInfo.password){
+        return handleData({ res, error: '用户名密码为空' });
+      }
+      if (bcrypt.compareSync(password, userInfo.password)) {
+        let token = jwt.sign({ username, password }, PRIVATE_KEY, { algorithm: 'RS256', expiresIn: '30d' });
+        res.json({
+          code: 200,
+          msg: '登录成功',
+          data: {
+            token: token,
+            userId: userInfo.id,
+            register: 0
+          }
+        })
+      } else {
+        res.json({
+          code: 500,
+          msg: '用户名或密码错误',
+        })
+      }
     }
-
-  }).catch((error) => {
+  } catch (error) {
     res.json({
       code: 500,
-      message: `login fail: ${error.message}`,
+      message: `登录失败: ${error.message}`,
     })
-  })
+  }
 }
+
 const head = async (req, res, next) => {
   res.json({
     code: 200,

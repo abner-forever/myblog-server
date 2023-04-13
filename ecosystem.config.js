@@ -5,18 +5,14 @@ module.exports = {
   apps: [{
     name: 'blog_api',
     exec: './myblog.server.bundle.js',
-    watch: './',
-    error_file: "./logs/pm2_error.log",//错误输出日志
-    out_file: "./logs/pm2_log.log",  //日志
+    watch: './myblog.server.bundle.js',
+    error_file: "./logs/error.log",//错误输出日志
+    out_file: "./logs/info.log",  //日志
     log_date_format: "YYYY/MM/DD HH:mm:ss", //日期格式
     instances: 1,
     autorestart: true,
     restart_delay: 60,
     env: {
-      NODE_ENV: 'development',
-      MYSQL_PASSWORD
-    },
-    env_production: {
       NODE_ENV: 'production',
       MYSQL_PASSWORD
     }

@@ -4,7 +4,6 @@
  * @returns string
  */
 const base64toStr = (base)=>{
-  console.log('base',base)
   const buff = Buffer.from(base, 'base64');
   return buff.toString('utf-8');
 }

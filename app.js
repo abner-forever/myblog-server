@@ -8,7 +8,7 @@ var usersRouter = require('./routes/users');
 var errorRouter = require('./routes/error');
 var articleRouter = require('./routes/article');
 var logsRouter = require('./routes/logs');
-const {checkToken} = require('./middleware')
+const { checkToken } = require('./middleware')
 
 const { clearLog, sign } = require('./utils/corn')
 

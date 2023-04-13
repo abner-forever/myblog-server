@@ -1,4 +1,4 @@
-
+const bcrypt = require('bcryptjs');
 const none = () => { }
 
 // 返回错误代码
@@ -24,6 +24,13 @@ const response = function ({ code, message, data }) {
 	})
 }
 
+function bcryptHashSync(myPlaintextPassword, cost) {
+  let salt = bcrypt.genSaltSync(cost);
+  let hash = bcrypt.hashSync(myPlaintextPassword, salt);
+  return hash;
+}
+
 module.exports = {
-	handleData
+	handleData,
+	bcryptHashSync
 }

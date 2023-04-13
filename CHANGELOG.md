@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/abner-forever/myblog-server/compare/v1.0.2...v1.0.3) (2023-04-13)
+
+
+### Bug Fixes
+
+* 处理登录 ([69d866f](https://github.com/abner-forever/myblog-server/commit/69d866f9e752ac40ffd021581554b8777f3cf574))
+
 ## [1.0.2](https://github.com/abner-forever/myblog-server/compare/v1.0.1...v1.0.2) (2023-04-12)
 
 

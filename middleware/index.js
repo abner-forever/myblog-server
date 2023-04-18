@@ -14,10 +14,10 @@ const checkToken = expressjwt({
     // 不需要验证 token 的路径标识符
     path: [
         '/api/users/login',
-        '/banner',
-        '/api/article/articleList',
-        '/api/article/getArticle',
-        '/'
+        '/api/users/head',
+        '/api/users/register',
+        { url: /^\/api\/article\/.*/, methods: ['GET'] },
+        { url: /^\/commonstatic\/.*/, methods: ['GET'] }
     ]
 })
 

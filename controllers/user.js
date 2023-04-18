@@ -4,7 +4,6 @@ var apiModel = require('../lib/mysql')
 const { handleData, bcryptHashSync } = require('../utils')
 const { PRIVATE_KEY } = require('../config')
 
-
 const userInfo = (req, res, next) => {
   let userId = req.headers['user-id'] || req.query.userId;
   if (!userId) {
@@ -31,7 +30,7 @@ const register = async (req, res, next) => {
   if (result && result.length > 0) {
     res.json({
       code: 500,
-      msg: '用户名已存在'
+      message: '用户名已存在'
     })
     return
   }
@@ -40,7 +39,7 @@ const register = async (req, res, next) => {
   let params = {
     userId: null,
     userName: req.body.userName,
-    sex: req.body.sex,
+    sex: req.body.sex||2,
     phone: req.body.phone,
     password: bcryptHashSync(password, 10),
     avator: req.body.avator
@@ -48,7 +47,7 @@ const register = async (req, res, next) => {
   apiModel.register(params).then(() => {
     res.json({
       code: 200,
-      msg: '注册成功'
+      message: '注册成功'
     })
   }).catch(() => {
     res.json({
@@ -70,7 +69,6 @@ const login = async (req, res, next) => {
     return handleData({ res, error: '用户名或者密码不能为空' });
   }
   const phone = Number(username);
-  console.log('phone',phone);
   let userInfo = null;
   try {
     if (!Object.is(phone, NaN)) {
@@ -79,7 +77,6 @@ const login = async (req, res, next) => {
       }
       let result = await apiModel.checkUserByPhone(phone);
       userInfo = result.length && result[0];
-      console.log('userInfo',userInfo);
     } else {
       let result = await apiModel.checkUserByusername(username);
       userInfo = result.length && result[0]
@@ -99,7 +96,7 @@ const login = async (req, res, next) => {
           if (_result && _result.length == 1) {
             res.json({
               code: 200,
-              msg: '登录成功',
+              message: '登录成功',
               data: {
                 token: token,
                 userId: _result[0].id,
@@ -126,7 +123,7 @@ const login = async (req, res, next) => {
         let token = jwt.sign({ username, password }, PRIVATE_KEY, { algorithm: 'RS256', expiresIn: '30d' });
         res.json({
           code: 200,
-          msg: '登录成功',
+          message: '登录成功',
           data: {
             token: token,
             userId: userInfo.id,
@@ -136,7 +133,7 @@ const login = async (req, res, next) => {
       } else {
         res.json({
           code: 500,
-          msg: '用户名或密码错误',
+          message: '用户名或密码错误',
         })
       }
     }

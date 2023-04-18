@@ -1,7 +1,7 @@
 const moment = require('moment')
 const apiModel = require('../lib/mysql.js')
 const { handleData } = require('../utils')
-const { base64toStr } = require('../utils/base64.js')
+const { base64toStr, strtoBase64 } = require('../utils/base64.js')
 
 //获取文章列表
 const articleList = async (req, res, next) => {
@@ -76,12 +76,15 @@ const addArticle = async (req, res, next) => {
 const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
-        const content = result[0] && base64toStr(result[0].content);
+        const articleInfo = result[0];
+        console.log('articleInfo',articleInfo);
+        const content = articleInfo && base64toStr(articleInfo.content);
         if (result.length > 0) {
+            apiModel.updateArticleViewCount(id,~~articleInfo.viewCount+1)
             handleData({
                 res,
                 data: {
-                    ...result[0],
+                    ...articleInfo,
                     content
                 }
             })
@@ -110,6 +113,7 @@ const updateArticle = async (req, res, next) => {
         })
     })
 }
+
 // 我的文章列表
 const myarticleList = async (req, res, next) => {
     let userId = req.query.userId || ""
@@ -137,7 +141,7 @@ const removeArticle = async (req, res, next) => {
     apiModel.removeArticle(params).then(() => {
         res.json({
             code: 200,
-            message: 'remove article success',
+            message: 'success',
         })
     }).catch((err) => {
         res.json({
@@ -152,6 +156,10 @@ const removeArticle = async (req, res, next) => {
 const getArticleComments = async (req, res, next) => {
     let param = req.query.id;
     apiModel.getComments(param).then((result) => {
+        result = Array.from(result).map((item)=>{
+            item.content=base64toStr(item.content)
+            return item
+        })
         res.json({
             code: 200,
             message: 'success',
@@ -170,8 +178,7 @@ const addComment = async (req, res, next) => {
     }
     let createTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     params.moment = createTime;
-    params.createTimeStamp = Date.now();
-
+    params.content = strtoBase64(params.content)
     apiModel.getUserById(params.userId || '').then((result) => {
         params.avator = result[0].avator || ''
         params.userName = result[0].userName || ''

@@ -1,17 +1,20 @@
 var PATH = require('path')
 var multer = require('multer')
+const {strtoBase64} = require('../utils/base64')
+
+const fullPath = PATH.resolve(__dirname, '../public/uploads/head');
 
 var storage = multer.diskStorage({
     //存储位置
     destination: function (req, res, cb) {
-        cb(null, PATH.resolve(__dirname, '../public/uploads/head'))
+        cb(null, fullPath)
     },
     filename: function (req, file, cb) {
-        let _originalName = file.originalname //原名
-        let _extName = PATH.extname(_originalName) //后缀名
+        let _originalName = strtoBase64(file.originalname) //原名
+        let _extName = PATH.extname(file.originalname) //后缀名
         let _baseName = PATH.basename(_originalName, _extName) //文件名
-        let _filename = _baseName + '_' + Date.now() + _extName
-        req.body.head = '/commonstatic/uploads/head/' + _filename
+        let _filename = _baseName + '_' + Date.now() + _extName;
+        req.body.head = req.headers.host + '/commonstatic/uploads/head/' + _filename
         cb(null, _filename)
     }
 })
@@ -30,8 +33,9 @@ const fileUpload = function (req, res, next) {
             res.json( {
                 code: 500,
                 data: {
-                    msg: err
-                }
+                    error: err
+                },
+                message:err.message
             })
         } else {
             next()

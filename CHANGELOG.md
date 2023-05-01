@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/abner-forever/myblog-server/compare/v1.0.4...v1.0.5) (2023-05-01)
+
+
+### Bug Fixes
+
+* 修改mysql ([278a00c](https://github.com/abner-forever/myblog-server/commit/278a00cda9038347812d595c0545c59907f116a3))
+
 ## [1.0.4](https://github.com/abner-forever/myblog-server/compare/v1.0.3...v1.0.4) (2023-04-18)
 
 

@@ -1,10 +1,6 @@
 const { expressjwt } = require('express-jwt');
-const {PRIVATE_KEY} = require('../config')
+const {PRIVATE_KEY} = require('../config');
 
-const resApplicationJson = (req,res, next) => {
-    res.set('content-type', 'appliction/json; charset=utf8')
-    next();
-}
 const checkToken = expressjwt({
     // 解析口令, 需要和加密的时候一致
     secret: PRIVATE_KEY,
@@ -16,7 +12,9 @@ const checkToken = expressjwt({
         '/api/users/login',
         '/api/users/head',
         '/api/users/register',
+        '/',
         { url: /^\/api\/article\/.*/, methods: ['GET'] },
+        { url: /^\/api\/.*/, methods: ['GET'] },
         { url: /^\/commonstatic\/.*/, methods: ['GET'] }
     ]
 })
@@ -33,7 +31,6 @@ const checkToken = expressjwt({
 //     next();
 // };
 module.exports = {
-    resApplicationJson,
-    checkToken,
+    checkToken
     // logHeaderMiddleware
 }

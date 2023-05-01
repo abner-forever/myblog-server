@@ -5,3 +5,4 @@ public/
 # config/
 key/
 dist/
+.idea

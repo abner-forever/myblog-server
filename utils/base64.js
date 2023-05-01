@@ -1,6 +1,6 @@
 /**
  * 
- * @param {string} base 
+ * @param {base64} base
  * @returns string
  */
 const base64toStr = (base)=>{
@@ -10,8 +10,8 @@ const base64toStr = (base)=>{
 
 /**
  * 
- * @param {string} content 
- * @returns base64
+ * @param {base64} content
+ * @returns string
  */
 const strtoBase64 = (content)=>{
   const  buff = Buffer.from(content, 'utf-8');

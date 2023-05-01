@@ -77,7 +77,6 @@ const getArticle = async (req, res, next) => {
     let id = req.query.id || ''
     apiModel.geArticleById(id).then((result) => {
         const articleInfo = result[0];
-        console.log('articleInfo',articleInfo);
         const content = articleInfo && base64toStr(articleInfo.content);
         if (result.length > 0) {
             apiModel.updateArticleViewCount(id,~~articleInfo.viewCount+1)
@@ -98,9 +97,8 @@ const getArticle = async (req, res, next) => {
 
 //更新文章
 const updateArticle = async (req, res, next) => {
-    var params = req.body
-    let updateTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
-    params.updateTime = updateTime
+    const params = req.body;
+    params.updateTime  = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     apiModel.updateArticle(params).then(() => {
         res.json({
             code: 200,
@@ -170,7 +168,7 @@ const getArticleComments = async (req, res, next) => {
 //发表评论
 const addComment = async (req, res, next) => {
     let params = req.body;
-    if (params.content == '') {
+    if (!params.content) {
         res.json({
             code: 500,
             message: '内容不能为空',

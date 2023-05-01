@@ -28,6 +28,8 @@ jobs:
 
       # 打包
       - name: 打包
+        env:
+            MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
         run: yarn build
 
       # 构建release

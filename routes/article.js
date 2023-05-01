@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var articleController = require('../controllers/article')
-const { resApplicationJson } = require('../middleware')
-
-router.use(resApplicationJson)
 
 /* GET users listing. */
 router.get('/articleList', articleController.articleList);

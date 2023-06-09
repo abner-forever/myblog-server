@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/abner-forever/myblog-server/compare/v1.0.5...v1.1.0) (2023-06-09)
+
+
+### Features
+
+* 修改上传路径 ([5882fd4](https://github.com/abner-forever/myblog-server/commit/5882fd41bcf0090927f37ab29078ae0a95e2c31a))
+
 ## [1.0.5](https://github.com/abner-forever/myblog-server/compare/v1.0.4...v1.0.5) (2023-05-01)
 
 

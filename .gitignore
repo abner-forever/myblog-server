@@ -4,5 +4,5 @@ logs/
 public/
 # config/
 key/
-dist/
+resource/
 .idea

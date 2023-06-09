@@ -6,7 +6,10 @@ const axios = require('axios');
 const { env, argv } = require('process')
 
 
-const COOKIE = env.JUE_JIN_SIGN_COOKIE
+const COOKIE = env.JUE_JIN_SIGN_COOKIE;
+
+console.log('COOKIE',COOKIE)
+console.log('env',env)
 /*---------------配置-----------------*/
 const config = {
     "baseUrl": "https://api.juejin.cn",

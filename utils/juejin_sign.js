@@ -3,12 +3,11 @@
 /*---------------依赖-----------------*/
 const nodeMailer = require('nodemailer');
 const axios = require('axios');
-const { env, argv } = require('process')
+const { env } = require('process')
 
 
 const COOKIE = env.JUE_JIN_SIGN_COOKIE;
 
-console.log('COOKIE',COOKIE)
 console.log('env',env)
 /*---------------配置-----------------*/
 const config = {
@@ -25,7 +24,7 @@ const config = {
             "user": "1661287843@qq.com",
             "from": "1661287843@qq.com",
             "to": "1661287843@qq.com",
-            "pass": "kbulaygbqfsweech"
+            "pass": env.EMAIL_PASSWORD
         }
     }
 }

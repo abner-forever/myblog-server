@@ -3,12 +3,7 @@
 /*---------------依赖-----------------*/
 const nodeMailer = require('nodemailer');
 const axios = require('axios');
-const { env } = require('process')
 
-
-const COOKIE = env.JUE_JIN_SIGN_COOKIE;
-
-console.log('env',env)
 /*---------------配置-----------------*/
 const config = {
     "baseUrl": "https://api.juejin.cn",
@@ -18,13 +13,13 @@ const config = {
         "getLotteryConfig": "/growth_api/v1/lottery_config/get",
         "drawLottery": "/growth_api/v1/lottery/draw"
     },
-    "cookie": COOKIE,
+    "cookie": "__tea_cookie_tokens_2608=%257B%2522user_unique_id%2522%253A%25227209954493814539834%2522%252C%2522web_id%2522%253A%25227209954493814539834%2522%252C%2522timestamp%2522%253A1683169494445%257D; passport_csrf_token=ae4f184aff26e873e7e85a8887129463; passport_csrf_token_default=ae4f184aff26e873e7e85a8887129463; n_mh=Yq3knZ6Rp_a8gxjLwXONTv-Q8KJJAjj9f-_3ftAhH_U; sid_guard=10b5a39af5c75f3298e7323a24fe74bc%7C1683270912%7C31536000%7CSat%2C+04-May-2024+07%3A15%3A12+GMT; uid_tt=ee5cca959fc7d6468fc4431963173c4e; uid_tt_ss=ee5cca959fc7d6468fc4431963173c4e; sid_tt=10b5a39af5c75f3298e7323a24fe74bc; sessionid=10b5a39af5c75f3298e7323a24fe74bc; sessionid_ss=10b5a39af5c75f3298e7323a24fe74bc; sid_ucp_v1=1.0.0-KGEyMTlkNzQ4Y2FhMTI5NGJmYTJhYzZmNzk2ZWQzNmZhYzdiYWE5ZDAKFwjo7NDA_fWlBhCA2tKiBhiwFDgHQPQHGgJsZiIgMTBiNWEzOWFmNWM3NWYzMjk4ZTczMjNhMjRmZTc0YmM; ssid_ucp_v1=1.0.0-KGEyMTlkNzQ4Y2FhMTI5NGJmYTJhYzZmNzk2ZWQzNmZhYzdiYWE5ZDAKFwjo7NDA_fWlBhCA2tKiBhiwFDgHQPQHGgJsZiIgMTBiNWEzOWFmNWM3NWYzMjk4ZTczMjNhMjRmZTc0YmM; store-region=cn-bj; store-region-src=uid; _tea_utm_cache_2608={%22utm_source%22:%22web_banner%22%2C%22utm_medium%22:%22banner%22%2C%22utm_campaign%22:%22xiaoce_GPT_20230510%22}; csrf_session_id=b73387b4db727dd54fc2494f26e0abbb; msToken=4E2CuNEgIo9lmauCKk82L46h2lWv7bai4iH3_-mr-F89XiJaOvjv8c32QGoRoNBOljyPT1OTDzR6glu8OfGfCwMe1JyGqtr_nSRWWGlevcWnMW0p3jDvxT7PaaYsLLPR",
     "email": {
         "qq": {
             "user": "1661287843@qq.com",
             "from": "1661287843@qq.com",
             "to": "1661287843@qq.com",
-            "pass": env.EMAIL_PASSWORD
+            "pass": "kbulaygbqfsweech"
         }
     }
 }

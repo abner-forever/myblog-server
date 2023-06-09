@@ -30,8 +30,6 @@ jobs:
       - name: 打包
         env:
             MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-            JUE_JIN_SIGN_COOKIE: ${{secrets.JUE_JIN_SIGN_COOKIE}}
-            EMAIL_PASSWORD: ${{secrets.EMAIL_PASSWORD}}
         run: yarn build
 
       # 构建release

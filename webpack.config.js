@@ -1,7 +1,7 @@
 var path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 let manifest = require('./package.json');
-const { DefinePlugin } = require('webpack');
+
 let externals = _externals();
 
 module.exports = {
@@ -48,10 +48,6 @@ module.exports = {
           to: '',
         },
         { from: 'views', to: 'views' },]
-    }),
-    new DefinePlugin({
-      JUE_JIN_SIGN_COOKIE: JSON.stringify(process.env.JUE_JIN_SIGN_COOKIE),
-      EMAIL_PASSWORD: JSON.stringify(process.env.EMAIL_PASSWORD)
     })
   ],
   optimization: {

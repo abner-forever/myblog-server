@@ -47,10 +47,10 @@ jobs:
           # scp参数
           ARGS: "-avzr --delete"
           # 源目录
-          SOURCE: "./dist"
+          SOURCE: "./resource"
           # 服务器ip：换成你的服务器IP
           REMOTE_HOST: "foreverheart.top"
           # 用户
           REMOTE_USER: "root"
           # 目标地址
-          TARGET: "/www/site/server"
+          TARGET: "/www/site/server/myblog-server"

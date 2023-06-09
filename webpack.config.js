@@ -12,7 +12,7 @@ module.exports = {
     __dirname: true
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'resource'),
     filename: 'myblog.server.bundle.js'
   },
   module: {

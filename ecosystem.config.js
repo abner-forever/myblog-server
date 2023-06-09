@@ -3,11 +3,11 @@ const MYSQL_PASSWORD = argv.slice(-1)[0]
 
 module.exports = {
   apps: [{
-    name: 'blog_api',
+    name: 'blog_server',
     exec: './myblog.server.bundle.js',
     watch: './myblog.server.bundle.js',
-    error_file: "./logs/error.log",//错误输出日志
-    out_file: "./logs/info.log",  //日志
+    error_file: "../logs/error.log",//错误输出日志
+    out_file: "../logs/info.log",  //日志
     log_date_format: "YYYY/MM/DD HH:mm:ss", //日期格式
     instances: 1,
     autorestart: true,

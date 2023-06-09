@@ -27,7 +27,13 @@ const ALLOW_ORIGIN = [
   'foreverheart.top',
   'http://localhost:3000/'
 ]
-let PRIVATE_KEY = fs.readFileSync(path.join(__dirname, '../key/private_key.pem'))
+
+const pathMap = {
+  'development': '../key/private_key.pem',
+  'production': '../../key/private_key.pem'
+}
+
+let PRIVATE_KEY = fs.readFileSync(path.join(__dirname, pathMap[env.NODE_ENV]))
 
 module.exports = {
   ...config,
